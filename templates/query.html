@@ -1,26 +1,188 @@
-<div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Modal Header</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+    <title>Datos Covid-19</title>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <nav
+      class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+    >
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#"
+        >Datos Covid-19</a
+      >
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+    </nav>
+    <header
+      class="d-flex flex-column flex-md-row align-items-md-center p-5 bg-light"
+    >
+      <div class="pt-md-3 pb-md-4">
+        <h1 class="bd-title mt-0">Reto Uno</h1>
+        <p class="bd-lead">
+          Visualización y consulta del conjunto de datos: Casos positivos de
+          COVID-19 en Colombia. Disponible en:
+          <a
+            href="https://www.datos.gov.co/Salud-y-Protecci-n-Social/Casos-positivos-de-COVID-19-en-Colombia/gt2j-8ykr"
+            >Datos abiertos</a
+          >
+        </p>
       </div>
-      <div class="modal-body">
-            <form action="/action_page.php" class="form-container">
-              <h1>Login</h1>
-          
-              <label for="email"><b>Email</b></label>
-              <input type="text" placeholder="Enter Email" name="email" required>
-          
-              <label for="psw"><b>Password</b></label>
-              <input type="password" placeholder="Enter Password" name="psw" required>
-          
-              <button type="submit" class="btn">Login</button>
-            </form>
-      </div>
-      <div class="modal-footer">
-        <h3>Modal Footer</h3>
+    </header>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="sidebar">
+          <a href="/"><i class="fa fa-fw fa-home"></i> Inicio</a>
+          <button class="open-button" id="myBtn">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            Consulta
+          </button>
+        </div>
+        <div class="tablecontainer">
+          {% for table in tables %} {{ table|safe }} {%endfor %}
+        </div>
       </div>
     </div>
-  </div>
-  
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Consulta</h2>
+        </div>
+        <div class="modal-body">
+          <form action="query.html" class="form-container" method="POST">
+            <h1>Campos</h1>
+            <div class="form-el">
+              <label for="id"><b>ID</b></label>
+              <input
+                type="text"
+                placeholder="Ingrese ID, separar con coma múltiples valores"
+                name="id"
+              />
+            </div>
+            <div class="form-el">
+              <label for="ndep"><b>Nombre Departamento</b></label>
+              <input
+                type="text"
+                placeholder="Ingrese nombre, separar con coma múltiples valores"
+                name="ndep"
+              />
+            </div>
+            <div class="form-el">
+              <label for="nmun"><b>Nombre Municipio</b></label>
+              <input
+                type="text"
+                placeholder="Ingrese nombre, separar con coma múltiples valores"
+                name="nmun"
+              />
+            </div>
+            <div class="form-el">
+              <label for="edad"><b>Edad</b></label>
+              <input type="number" name="edad" min="1" max="150" step="1" />
+              <label for="uedad"><b>Unidad</b></label>
+              <select name="uedad" id="uedad">
+                <option value="">--</option>
+                <option value="Años">Años</option>
+                <option value="Meses">Meses</option>
+                <option value="Días">Días</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="sexo"><b>Sexo</b></label>
+              <select name="sexo" id="sexo">
+                <option value="">--</option>
+                <option value="F">F</option>
+                <option value="M">M</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="estado"><b>Estado</b></label>
+              <select name="estado" id="estado">
+                <option value="">--</option>
+                <option value="Leve">Leve</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Grave">Grave</option>
+                <option value="Fallecido">Fallecido</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="recu"><b>Recuperado</b></label>
+              <select name="recu" id="recu">
+                <option value="">--</option>
+                <option value="Recuperado">Recuperado</option>
+                <option value="Activo">Activo</option>
+                <option value="Fallecido">Fallecido</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="fdia"><b>Fecha de Diagnóstico</b></label>
+              <input type="date" id="fdia" name="fdia" min="2018-01-01" />
+            </div>
+            <button type="submit" class="btn">Buscar</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <h3></h3>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+    <footer class="footer mt-auto py-3">
+      <div class="container">
+        <span class="text-muted">Introducción a la ciencia de datos</span>
+        <span class="text-muted">2020</span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -22,6 +22,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/main.css') }}"
     />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <title>Datos Covid-19</title>
   </head>
 
@@ -32,11 +33,6 @@
       <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#"
         >Datos Covid-19</a
       >
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
     </nav>
     <header
       class="d-flex flex-column flex-md-row align-items-md-center p-5 bg-light"
@@ -45,7 +41,7 @@
         <h1 class="bd-title mt-0">Reto Uno</h1>
         <p class="bd-lead">
           Visualización y consulta del conjunto de datos: Casos positivos de
-          COVID-19 en Colombia. Diponible en:
+          COVID-19 en Colombia. Disponible en:
           <a
             href="https://www.datos.gov.co/Salud-y-Protecci-n-Social/Casos-positivos-de-COVID-19-en-Colombia/gt2j-8ykr"
             >Datos abiertos</a
@@ -58,7 +54,7 @@
         <div class="sidebar">
           <a href="/"><i class="fa fa-fw fa-home"></i> Inicio</a>
           <button class="open-button" id="myBtn">
-            <i class="fa fa-fw fa-plus-circle"></i>
+            <i class="fa fa-fw fa-search-plus"></i>
             Consulta
           </button>
         </div>
@@ -75,27 +71,114 @@
           <h2>Consulta</h2>
         </div>
         <div class="modal-body">
-          <form action="" class="form-container" method="POST">
+          <form action="/" class="form-container" method="post">
             <h1>Campos</h1>
             <div class="form-el">
-              <label for="email"><b>Email</b></label>
+              <label for="id"><b>ID</b></label>
               <input
                 type="text"
-                placeholder="Enter Email"
-                name="email"
-                required
+                placeholder="Ingrese ID, separar con coma múltiples valores"
+                name="id"
               />
             </div>
             <div class="form-el">
-              <label for="email"><b>Email</b></label>
+              <label for="ndep"><b>Nombre Departamento</b></label>
               <input
                 type="text"
-                placeholder="Enter Email"
-                name="email"
-                required
+                placeholder="Ingrese nombre, separar con coma múltiples valores"
+                name="ndep"
               />
             </div>
-            <button type="submit" class="btn">Buscar</button>
+            <div class="form-el">
+              <label for="nmun"><b>Nombre Municipio</b></label>
+              <input
+                type="text"
+                placeholder="Ingrese nombre, separar con coma múltiples valores"
+                name="nmun"
+              />
+            </div>
+            <div class="form-el">
+              <label for="edad"><b>Edad</b></label>
+              <input type="number" name="edad" min="1" max="150" step="1" />
+              <label for="uedad"><b>Unidad</b></label>
+              <select name="uedad" id="uedad">
+                <option value="">--</option>
+                <option value="Años">Años</option>
+                <option value="Meses">Meses</option>
+                <option value="Días">Días</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="sexo"><b>Sexo</b></label>
+              <select name="sexo" id="sexo">
+                <option value="">--</option>
+                <option value="F">F</option>
+                <option value="M">M</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="estado"><b>Estado</b></label>
+              <select name="estado" id="estado">
+                <option value="">--</option>
+                <option value="Leve">Leve</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Grave">Grave</option>
+                <option value="Fallecido">Fallecido</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="recu"><b>Recuperado</b></label>
+              <select name="recu" id="recu">
+                <option value="">--</option>
+                <option value="Recuperado">Recuperado</option>
+                <option value="Activo">Activo</option>
+                <option value="Fallecido">Fallecido</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="fdia"><b>Fecha de Diagnóstico</b></label>
+              <input type="date" id="fdia" name="fdia" min="2018-01-01" />
+            </div>
+            <div class="form-el">
+              <label for="dc"><b>Operador</b></label>
+              
+                <input type="radio" id="con" name="dc" value="con">
+                <label for="con">Conjunción</label><br>
+                <label      </label>
+                <input type="radio" id="dis" name="dc" value="dis" checked>
+                      <label for="dis">Disyunción</label><br>
+            </div>
+            <div class="form-el">
+              <label for="etnia"><b>Etnia</b></label>
+              <select name="etnia" id="etnia">
+                <option value="">--</option>
+                <option value="Indígena">Indígena</option>
+                <option value="ROM">ROM</option>
+                <option value="Raizal">Raizal</option>
+                <option value="Palenquero">Palenquero</option>
+                <option value="Negro">Negro</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-el">
+              <label for="cdep"><b>Código Departamento</b></label>
+              <input type="number" name="cdep" min="1" max="100" step="1" />
+            </div>
+            <div class="form-el">
+              <label for="cmun"><b>Código Municipio</b></label>
+              <input type="number" name="cmun" min="1" max="100000" step="1" />
+            </div>
+            <div class="form-el">
+              <label for="ubic"><b>Ubicación</b></label>
+              <select name="ubic" id="ubic">
+                <option value="">--</option>
+                <option value="Casa">Casa</option>
+                <option value="Fallecido">Fallecido</option>
+                <option value="Hospital">Hospital</option>
+                <option value="Hospital Uci">Hospital Uci</option>
+              </select>
+            </div>
+            <button type="submit" class="btn" name="buscar" value="True">Buscar</button>
           </form>
         </div>
         <div class="modal-footer">

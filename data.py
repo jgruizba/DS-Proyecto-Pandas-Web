@@ -54,6 +54,23 @@ COLS = [
     "fmuer",
 ]
 
+DATES = ["fweb", "fnot", "fsin", "fdia", "frec", "fmuer"]
+STRINGS = [
+    "ndep",
+    "nmun",
+    "uedad",
+    "sexo",
+    "tipo",
+    "ubic",
+    "estado",
+    "npais",
+    "recu",
+    "trec",
+    "etnia",
+    "netnia",
+]
+NUMBERS = ["id", "cdep", "cmun", "edad", "cpais"]
+
 
 def get_data(url, id, lmt):
     client = Socrata(url, None)
@@ -62,21 +79,6 @@ def get_data(url, id, lmt):
 
 
 def normalize(dataframe):
-    dates = ["fweb", "fnot", "fsin", "fdia", "frec", "fmuer"]
-    strings = [
-        "ndep",
-        "nmun",
-        "uedad",
-        "sexo",
-        "tipo",
-        "ubic",
-        "estado",
-        "npais",
-        "recu",
-        "trec",
-        "etnia",
-        "netnia",
-    ]
 
     df = dataframe.rename(
         columns={
@@ -120,10 +122,10 @@ def normalize(dataframe):
 
     df["etnia"] = df["etnia"].apply(lambda x: etnia[x] if not pd.isna(x) else np.nan)
 
-    for date in dates:
+    for date in DATES:
         df[date] = pd.to_datetime(df[date], errors="ignore", dayfirst=True)
 
-    for string in strings:
+    for string in STRINGS:
         df[string] = df[string].str.title()
 
     df = df.astype(
@@ -141,17 +143,25 @@ def normalize(dataframe):
 
 
 def by_date(col, dates):
-    query = " or ".join(['{} == "{}"'.format(col, f) for f in dates])
+    query = " or ".join(['({} == "{}")'.format(col, f) for f in dates])
     return query
 
 
 def by_string(col, values):
-    query = " or ".join(['{} == "{}"'.format(col, value) for value in values])
+    query = " or ".join(['({} == "{}")'.format(col, value) for value in values])
     return query
 
 
-def by_numbers(dataframe, col, values, op):
+def by_number(col, values, op):
     query = " or ".join(
-        ["{} {} {}".format(col, pair[0], pair[1]) for pair in zip(op, values)]
+        ["({} {} {})".format(col, pair[0], pair[1]) for pair in zip(op, values)]
     )
     return query
+
+
+def join_queries(queries, op):
+    return op.join(['({})'.format(x) for x in queries])
+
+
+def execute(dataframe, q):
+    return dataframe.query(q)
