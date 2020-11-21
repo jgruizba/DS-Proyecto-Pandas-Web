@@ -4,7 +4,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-df = data.get_data("www.datos.gov.co", "gt2j-8ykr", 300)
+df = data.get_data("www.datos.gov.co", "gt2j-8ykr", 500)
 indf = data.normalize(df)
 strings = []
 numbers = []
